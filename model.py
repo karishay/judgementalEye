@@ -15,39 +15,22 @@ Base = declarative_base()
 Base.query = Session.query_property()
 
 ### Class declarations go here
-# User
-# id: integer
-# age: integer
-# gender: string
-# zip_code: string (technically zip codes aren't numeric)
-# email: optional string
-# password: optional string
 class User(Base):
     __tablename__ = "users"
     id = Column(Integer, primary_key = True)
     email = Column(String(64), nullable=True)
     password = Column(String(64), nullable=True)
     age = Column(Integer, nullable=True)
-    zipcode = Column(String(15), nullable=True)
-    gender = Column(String(10), nullable=True)
+    zipcode = Column(String(15), nullable = True)
+    gender = Column(String(10), nullable = True)
 
-# Movie:
-# id: integer
-# name: string
-# released_at: datetime
-# imdb_url: string
 class Movie(Base):
     __tablename__ = "movies"
     id = Column(Integer, primary_key = True)
     title = Column(String(64))
-    release_date = Column(DateTime, nullable=True)
-    imdb_url = Column(String(90), nullable=True)
+    release_date = Column(DateTime, nullable = True)
+    imdb_url = Column(String(90), nullable = True)
 
-# Rating:
-# id: integer
-# movie_id: integer
-# user_id: integer
-# rating: integer
 class Rating(Base):
     __tablename__="ratings"
     id = Column(Integer, primary_key = True)
@@ -59,16 +42,21 @@ class Rating(Base):
         backref=backref("ratings", order_by=id))
 
 ### End class declarations
+
+
 def createTables():
     #make a funciton to recreate the tables in the db
     Base.metadata.create_all(ENGINE)
     print "all our base are recreated!!!"
 
-# def connect():
-#     global ENGINE
-#     global Session
+def authenticate(email, password):
+# If a row matches 
+    row = Session.query(User).filter_by(email = email, password = password).one()
+    if row:       
+        return row
+    else:
+        return -1
 
-#     return Session()
 
 def main():
     """In case we need this for something"""

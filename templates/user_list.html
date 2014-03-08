@@ -1,12 +1,13 @@
+{% if not standalone %}{% extends 'master.html' %}{% endif -%}
 <html>
     <head>            
         <h1>Here is some html template, yay!
         </h1>
     </head>
-        <body>
-            {% for user in users %}
-            <h2>User {{ user.id }}, age {{ user.age }} has {{ user.ratings|length }} ratings
-            </h2>
-            {% endfor %}
-        </body>
+    <body>
+        {% for user in users %}
+        <h2>User {{ user.id }}, age {{ user.age }} has {{ user.ratings|length }} ratings
+        </h2>
+        {% endfor %}
+    </body>
 </html>
