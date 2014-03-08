@@ -1,12 +1,18 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
 from sqlalchemy import Column, Integer, String, DateTime
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, scoped_session
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import relationship, backref
 
-ENGINE = None
-Session = None
+
+ENGINE = create_engine("sqlite:///ratings.db", echo=True)
+Session = scoped_session(sessionmaker(bind=ENGINE,
+                                        autocommit = False,
+                                        autoflush = False))
 
 Base = declarative_base()
+Base.query = Session.query_property()
 
 ### Class declarations go here
 # User
@@ -30,11 +36,11 @@ class User(Base):
 # name: string
 # released_at: datetime
 # imdb_url: string
-class Movies(Base):
+class Movie(Base):
     __tablename__ = "movies"
     id = Column(Integer, primary_key = True)
-    name = Column(String(64))
-    released_at = Column(DateTime, nullable=True)
+    title = Column(String(64))
+    release_date = Column(DateTime, nullable=True)
     imdb_url = Column(String(90), nullable=True)
 
 # Rating:
@@ -43,11 +49,14 @@ class Movies(Base):
 # user_id: integer
 # rating: integer
 class Rating(Base):
-    __tablename__="rating"
+    __tablename__="ratings"
     id = Column(Integer, primary_key = True)
     movie_id = Column(Integer)
-    user_id = Column(Integer)
+    user_id = Column(Integer, ForeignKey('users.id'))
     rating = Column(Integer)
+
+    user = relationship("User",
+        backref=backref("ratings", order_by=id))
 
 ### End class declarations
 def createTables():
@@ -55,19 +64,16 @@ def createTables():
     Base.metadata.create_all(ENGINE)
     print "all our base are recreated!!!"
 
-def connect():
-    global ENGINE
-    global Session
+# def connect():
+#     global ENGINE
+#     global Session
 
-    ENGINE = create_engine("sqlite:///ratings.db", echo=True)
-    Session = sessionmaker(bind=ENGINE)
-
-    return Session()
+#     return Session()
 
 def main():
     """In case we need this for something"""
-    connect()
-    createTables()
+    # connect()
+    #createTables()
 
 
 if __name__ == "__main__":
