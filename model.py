@@ -31,14 +31,18 @@ class Movie(Base):
     release_date = Column(DateTime, nullable = True)
     imdb_url = Column(String(90), nullable = True)
 
+
 class Rating(Base):
     __tablename__="ratings"
     id = Column(Integer, primary_key = True)
-    movie_id = Column(Integer)
+    movie_id = Column(Integer, ForeignKey('movies.id'))
     user_id = Column(Integer, ForeignKey('users.id'))
     rating = Column(Integer)
 
     user = relationship("User",
+        backref=backref("ratings", order_by=id))
+
+    movie = relationship("Movie",
         backref=backref("ratings", order_by=id))
 
 ### End class declarations

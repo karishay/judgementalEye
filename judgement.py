@@ -61,6 +61,18 @@ def user_list():
     user_list =  model.Session.query(model.User).limit(5).all()
     return render_template("user_list.html", users= user_list)
 
+@app.route("/<int:id>/ratings", methods=["GET"])
+def getRatings(id):
+    print id , "This is the id muthafucka!"
+    userObj = model.Session.query(model.User).get(id)
+    print userObj.ratings , "this is the ratings"
+    return render_template("ratingsByUser.html", user = userObj)
+
+
+@app.route("/anotherpage")
+def anotherfunction():
+    #get movies and rate those bitches.
+    pass
 
 if __name__=="__main__":
     app.run(debug=True)

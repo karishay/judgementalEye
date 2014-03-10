@@ -1,7 +1,9 @@
 {% extends 'master.html' %}
 {% block body %}
         {% for user in users %}
-        <h2>User {{ user.id }}, age {{ user.age }} has {{ user.ratings|length }} ratings
-        </h2>
+        <a href="/{{user.id}}/ratings" >
+            <h2>User {{ user.id }} is age {{ user.age }} and has {{ user.ratings|length }} movie ratings
+            </h2>
+        </a>
         {% endfor %}
 {% endblock %}
