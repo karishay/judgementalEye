@@ -69,6 +69,19 @@ def checkEmail(email):
     else:
         return False
 
+def movieAverage(movie):
+    ratings = Session.query(Rating).filter_by(movie_id = movie.id).all()
+    sumOfRatings = 0
+    for rating in ratings:
+        sumOfRatings += rating.rating
+        # listOfRatings = ratings[list(i)]
+    #     sumOfRatings = sum(list(rating))
+    # print "THIS IS A SUM OF THINGS: ", sumOfRatings
+    # averageRating = sumOfRatings/len(ratings)
+    # return averageRating
+
+
+    return float(sumOfRatings/len(ratings))
 
 def main():
     """In case we need this for something"""

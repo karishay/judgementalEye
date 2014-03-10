@@ -2,7 +2,8 @@
 {% block body %}
         <h3>So and So, person # {{ user.id }} rated : </h3>
         {% for rating in user.ratings %}
-        <h4> {{ rating.movie.title }} : {{ rating.rating}} out of 10.
+        <a href="/{{rating.movie.id}}/movies" >
+        <h4> {{ rating.movie.title }} : {{ rating.rating}} out of 5.
         </h4>
         {% endfor %}
 {% endblock %}

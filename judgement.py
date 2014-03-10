@@ -63,16 +63,16 @@ def user_list():
 
 @app.route("/<int:id>/ratings", methods=["GET"])
 def getRatings(id):
-    print id , "This is the id muthafucka!"
     userObj = model.Session.query(model.User).get(id)
-    print userObj.ratings , "this is the ratings"
     return render_template("ratingsByUser.html", user = userObj)
 
 
-@app.route("/anotherpage")
-def anotherfunction():
-    #get movies and rate those bitches.
-    pass
+@app.route("/<int:id>/movies")
+def movieRating(id):
+    movieRatings = model.Session.query(model.Movie).get(id)
+    movieAverage = model.movieAverage(movieRatings)
+    return render_template("movies.html", movie = movieRatings, movieAverage = movieAverage)
+
 
 if __name__=="__main__":
     app.run(debug=True)
