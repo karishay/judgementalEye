@@ -51,11 +51,19 @@ def createTables():
 
 def authenticate(email, password):
 # If a row matches 
-    row = Session.query(User).filter_by(email = email, password = password).one()
-    if row:       
-        return row
+    row = Session.query(User).filter_by(email = email, password = password).first()
+    if (email, password) == (row.email, row.password):
+        return True
     else:
-        return -1
+        return False      
+
+
+def checkEmail(email):
+    userObject = Session.query(User).filter_by(email = email).all()
+    if len(userObject) != 0:
+        return True
+    else:
+        return False
 
 
 def main():
