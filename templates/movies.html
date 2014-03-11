@@ -1,5 +1,14 @@
 {% extends 'master.html' %}
 {% block body %}
         <h3>{{ movie.title }} has an average rating of: {{ movieAverage }}</h3>
-        
+
+        {% if user %}
+            <form class="rating" method="POST" action="{{ url_for('saveMovieRating', movie_id=movie.id) }}">
+            <center><h2 class="">Enter your rating</h2>
+            <input type="text" name="rating" value="" />
+
+            <input type="submit" class="btn btn-lg btn-primary btn-block" value="Submit">
+            </form>
+        {% endif %}
+
 {% endblock %}

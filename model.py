@@ -56,10 +56,12 @@ def createTables():
 def authenticate(email, password):
 # If a row matches 
     row = Session.query(User).filter_by(email = email, password = password).first()
-    if (email, password) == (row.email, row.password):
-        return True
-    else:
-        return False      
+    return row
+#    if len(row) == 1:
+#    if (email, password) == (row.email, row.password):
+#        return True
+#    else:
+#        return False      
 
 
 def checkEmail(email):

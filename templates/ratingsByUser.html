@@ -1,9 +1,10 @@
 {% extends 'master.html' %}
 {% block body %}
         <h3>So and So, person # {{ user.id }} rated : </h3>
+        <a href="{{url_for('user_list')}}" >Want to rate more movies? </a>
         {% for rating in user.ratings %}
         <a href="/{{rating.movie.id}}/movies" >
         <h4> {{ rating.movie.title }} : {{ rating.rating}} out of 5.
-        </h4>
+        </h4></a>
         {% endfor %}
 {% endblock %}
